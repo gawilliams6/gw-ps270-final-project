@@ -20,6 +20,37 @@ My research question is: How does gender relate to U.S. adults’ intentions or 
 ## Data
 ```{r}
 library(tidyverse)
+
 panel_data <- read_csv("ATP W147.csv")
-panel_data
+head(panel_data)
+
+clean_data <- panel_data |>
+  select(F_GENDER, KIDSEVER_W147) |>
+  rename(
+    gender = F_GENDER,
+    child_views = KIDSEVER_W147
+  ) |>
+  filter(gender %in% c(1, 2)) |>
+  filter(!is.na(child_views)) |>
+  filter(child_views != "Refused") |>
+  mutate(
+    gender = factor(gender, labels = c("Male", "Female")),
+    child_views = factor(child_views,
+      levels = c(1, 2, 3),
+      labels = c(
+        "Wanted children at one point",
+        "Never wanted children",
+        "Unsure")))
+
+ggplot(data = clean_data, mapping = aes(x = child_views, fill = gender)) +
+  geom_bar(position = "dodge") +
+  labs(
+    title = "Views on Having Children by Gender",
+    subtitle = "Among U.S. adults who have never had children",
+    x = "Response",
+    y = "Number of respondents",
+    fill = "Gender",
+    caption = "Source: Pew Research Center ATP Wave 147"
+  )
 ```
+

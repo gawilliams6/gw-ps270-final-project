@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["ATP W147.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["ATP W147.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1552,29 +1552,57 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span></span>
 <span><span class='va'>panel_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"ATP W147.csv"</span><span class='op'>)</span></span>
-<span><span class='va'>panel_data</span></span></code></pre>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>panel_data</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 3,312 × 112
-    QKEY INTERVIEW_START_W147 INTERVIEW_END_W147  DEVICE_TYPE_W147
-   &lt;dbl&gt; &lt;dttm&gt;               &lt;dttm&gt;                         &lt;dbl&gt;
- 1   150 2024-04-29 19:55:09  2024-04-29 20:01:29                1
- 2   153 2024-04-29 20:01:34  2024-04-29 20:08:15                2
- 3   157 2024-04-29 20:06:18  2024-04-29 20:49:43                1
- 4   158 2024-04-29 20:07:02  2024-04-29 20:22:37                2
- 5   161 2024-04-29 20:15:24  2024-04-29 20:26:48                2
- 6   165 2024-04-29 20:17:48  2024-04-29 20:35:13                3
- 7   167 2024-04-29 20:20:44  2024-04-29 20:40:29                3
- 8   169 2024-04-29 20:30:59  2024-04-29 20:37:49                1
- 9   170 2024-04-29 20:34:00  2024-04-29 20:43:17                1
-10   178 2024-04-29 20:53:02  2024-04-29 21:00:36                2
-# ℹ 3,302 more rows
+<pre><code># A tibble: 6 × 112
+   QKEY INTERVIEW_START_W147 INTERVIEW_END_W147  DEVICE_TYPE_W147
+  &lt;dbl&gt; &lt;dttm&gt;               &lt;dttm&gt;                         &lt;dbl&gt;
+1   150 2024-04-29 19:55:09  2024-04-29 20:01:29                1
+2   153 2024-04-29 20:01:34  2024-04-29 20:08:15                2
+3   157 2024-04-29 20:06:18  2024-04-29 20:49:43                1
+4   158 2024-04-29 20:07:02  2024-04-29 20:22:37                2
+5   161 2024-04-29 20:15:24  2024-04-29 20:26:48                2
+6   165 2024-04-29 20:17:48  2024-04-29 20:35:13                3
 # ℹ 108 more variables: LANG_W147 &lt;dbl&gt;, XPANEL_W147 &lt;dbl&gt;,
 #   XATPSAMPLE_W147 &lt;dbl&gt;, SATLIFE_MOD_a_W147 &lt;dbl&gt;,
 #   SATLIFE_MOD_b_W147 &lt;dbl&gt;, SATLIFE_MOD_c_W147 &lt;dbl&gt;,
 #   SATLIFE_MOD_d_W147 &lt;dbl&gt;, SATLIFE_MOD_f_W147 &lt;dbl&gt;,
 #   EVERPAR_W147 &lt;dbl&gt;, DOV_KP_ELIGIBLE_W147 &lt;dbl&gt;,
-#   HAVEKIDS1_W147 &lt;dbl&gt;, MARITALMOD_W147 &lt;dbl&gt;, …</code></pre>
+#   HAVEKIDS1_W147 &lt;dbl&gt;, MARITALMOD_W147 &lt;dbl&gt;, COMMREL_W147 &lt;dbl&gt;,
+#   LWPREL_W147 &lt;dbl&gt;, SEEKING_W147 &lt;dbl&gt;, LIVARRANG_W147 &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>clean_data</span> <span class='op'>&lt;-</span> <span class='va'>panel_data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>F_GENDER</span>, <span class='va'>KIDSEVER_W147</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span></span>
+<span>    gender <span class='op'>=</span> <span class='va'>F_GENDER</span>,</span>
+<span>    child_views <span class='op'>=</span> <span class='va'>KIDSEVER_W147</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>gender</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>child_views</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>child_views</span> <span class='op'>!=</span> <span class='st'>"Refused"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    gender <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>gender</span>, labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Male"</span>, <span class='st'>"Female"</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span>    child_views <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>child_views</span>,</span>
+<span>      levels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span><span class='op'>)</span>,</span>
+<span>      labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span>        <span class='st'>"Wanted children at one point"</span>,</span>
+<span>        <span class='st'>"Never wanted children"</span>,</span>
+<span>        <span class='st'>"Unsure"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>clean_data</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>child_views</span>, fill <span class='op'>=</span> <span class='va'>gender</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='st'>"dodge"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Views on Having Children by Gender"</span>,</span>
+<span>    subtitle <span class='op'>=</span> <span class='st'>"Among U.S. adults who have never had children"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Response"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Number of respondents"</span>,</span>
+<span>    fill <span class='op'>=</span> <span class='st'>"Gender"</span>,</span>
+<span>    caption <span class='op'>=</span> <span class='st'>"Source: Pew Research Center ATP Wave 147"</span></span>
+<span>  <span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" alt="" width="624" /></p>
 </div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->

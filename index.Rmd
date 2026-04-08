@@ -54,3 +54,22 @@ ggplot(data = clean_data, mapping = aes(x = child_views, fill = gender)) +
   )
 ```
 
+```{r}
+summary_table <- clean_data |>
+  group_by(gender, child_views) |>
+  summarize(n = n()) |>
+  mutate(percent = n / sum(n) * 100) 
+summary_table
+```
+
+```{r}
+ggplot(data = summary_table, mapping = aes(x = child_views, y = percent, fill = gender)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(
+    title = "Percentage of Responses by Gender",
+    x = "Views on Having Children",
+    y = "Percent",
+    fill = "Gender"
+  )
+```
+This analysis compares how men and women differ in their responses to the question about having children. The results show that women are slightly more likely than men to say that they wanted children at one point, while men are somewhat more likely to report that they never wanted children or were unsure. However, the differences between the groups are relatively small. Overall, this suggests that gender is associated with attitudes toward having children, but the relationship is not particularly strong. These findings provide limited support for my hypothesis that gender influences how people think about having children.

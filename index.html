@@ -1684,7 +1684,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    x <span class='op'>=</span> <span class='st'>"Views on Having Children"</span>,</span>
 <span>    y <span class='op'>=</span> <span class='st'>"Percent"</span>,</span>
 <span>    fill <span class='op'>=</span> <span class='st'>"Gender"</span></span>
-<span>  <span class='op'>)</span></span></code></pre>
+<span>  <span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" alt="" width="624" /></p>
 </div>
@@ -1730,32 +1731,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tr>
 </tbody>
 </table>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
-</div>
-<pre><code>&lt;theme&gt; List of 1
- $ axis.text.x: &lt;ggplot2::element_text&gt;
-  ..@ family       : NULL
-  ..@ face         : NULL
-  ..@ italic       : chr NA
-  ..@ fontweight   : num NA
-  ..@ fontwidth    : num NA
-  ..@ colour       : NULL
-  ..@ size         : NULL
-  ..@ hjust        : num 1
-  ..@ vjust        : NULL
-  ..@ angle        : num 45
-  ..@ lineheight   : NULL
-  ..@ margin       : NULL
-  ..@ debug        : NULL
-  ..@ inherit.blank: logi FALSE
- @ complete: logi FALSE
- @ validate: logi TRUE</code></pre>
 </div>
 <p>To better analyze this relationship, I created a binary outcome variable that groups respondents who said they “never wanted children” or were “unsure” into one category, and those who said they “wanted children at one point” into another. The regression results show that gender is statistically significant in predicting attitudes about having children. The coefficient on gender is -0.051, which means that women are about 5.1 percentage points less likely than men to report that they never wanted children or were unsure. Therefore, men are slightly more likely than women to report that they never wanted children or were unsure. While this difference is statistically significant, the overall size of the effect is relatively small. Because the data are cross-sectional, this relationship should not be interpreted as causal, and other factors may help explain the difference. Interestingly, the results go against my initial null hypothesis, as men are actually more likely than women to report that they never wanted children or are unsure.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Overall, the results show that there are some small differences between men and women in how they think about having children, but the relationship is not very strong. Women are slightly more likely to say they once wanted children, while men are a bit more likely to say they never wanted children or are unsure. This provides only limited support for my hypothesis. There are a few limitations to this analysis. Because the data are cross-sectional, it is not possible to make causal claims. There may also be other factors, like socioeconomic status or relationship status, that affect both gender and attitudes toward having children. In addition, missing or refused responses could affect the results. If I had more time, I would try to include more variables in the analysis and explore how other factors might interact with gender.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

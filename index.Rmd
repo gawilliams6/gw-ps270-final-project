@@ -73,7 +73,8 @@ ggplot(data = summary_table, mapping = aes(x = child_views, y = percent, fill = 
     x = "Views on Having Children",
     y = "Percent",
     fill = "Gender"
-  )
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 ## Results
 
@@ -90,7 +91,6 @@ clean_data <- clean_data |>
   )
 model_binary <- lm(no_kids_binary ~ gender, data = clean_data)
 kable(tidy(model_binary), digits = 3)
-theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 To better analyze this relationship, I created a binary outcome variable that groups respondents who said they “never wanted children” or were “unsure” into one category, and those who said they “wanted children at one point” into another. The regression results show that gender is statistically significant in predicting attitudes about having children. The coefficient on gender is -0.051, which means that women are about 5.1 percentage points less likely than men to report that they never wanted children or were unsure. Therefore, men are slightly more likely than women to report that they never wanted children or were unsure. While this difference is statistically significant, the overall size of the effect is relatively small. Because the data are cross-sectional, this relationship should not be interpreted as causal, and other factors may help explain the difference. Interestingly, the results go against my initial null hypothesis, as men are actually more likely than women to report that they never wanted children or are unsure.

@@ -1544,14 +1544,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
+<h2 id="introduction">Introduction</h2>
 <p>I am interested in exploring data related to childcare.</p>
-<h2 id="tentative-research-question">Tentative research question</h2>
 <p>My research question is: How does gender relate to U.S. adults’ intentions or feelings about having children among those who have never been parents? I want to find out if women and men differ in how they describe their thoughts about having children. My hypothesis is that women are more likely than men to say that they “never wanted to have children” or “weren’t sure” compared to men, reflecting social and behavioral patterns in intention of raising kids. The key independent variable is F_GENDER, which indicates whether the respondent self-reported as a woman, a man, in some other way, or refused to answer. The dependent variable is the survey question (KIDSEVER_W147): “Which of the following best describes your thoughts on having children?” with response options: “There was a time when you wanted to have children,” “You never wanted to have children,” “You weren’t sure whether or not you wanted to have children,” and “Refused.” My hypothesis would be supported if the responses differ significantly by gender, specifically if women were more likely to respond with “You never wanted to have children” and “You weren’t sure whether or not you wanted to have children.” The hypothesis would be disproved if there is no difference by gender, or if men are more likely than women to report they never wanted children or were unsure.</p>
 <h2 id="data">Data</h2>
+<p>This analysis uses data from the Pew Research Center American Trends Panel Wave 147, which surveys U.S. adults who have never had children. The data are cross-sectional, meaning they were collected at one point in time rather than over a longer period. The main independent variable is gender, measured using the variable <code>F_GENDER</code>, which I recoded to include only male and female respondents. The dependent variable comes from the question “Which of the following best describes your thoughts on having children?” (<code>KIDSEVER_W147</code>). The responses include whether someone once wanted children, never wanted children, or was unsure. I cleaned the data by removing missing and refused responses and recoding the variables into more readable categories. I would expect to see support for my hypothesis if women are more likely than men to say they never wanted children or that they are unsure. If there is little difference between men and women, or if men are more likely to give those responses, then the hypothesis would not be supported.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>panel_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"ATP W147.csv"</span><span class='op'>)</span></span>
 <span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>panel_data</span><span class='op'>)</span></span></code></pre>
@@ -1608,22 +1610,70 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>summary_table</span> <span class='op'>&lt;-</span> <span class='va'>clean_data</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>gender</span>, <span class='va'>child_views</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>, .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>percent <span class='op'>=</span> <span class='va'>n</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>n</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span><span class='op'>)</span> </span>
-<span><span class='va'>summary_table</span></span></code></pre>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>summary_table</span>, digits <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 8 × 4
-# Groups:   gender [2]
-  gender child_views                      n percent
-  &lt;fct&gt;  &lt;fct&gt;                        &lt;int&gt;   &lt;dbl&gt;
-1 Male   Wanted children at one point   498   38.6 
-2 Male   Never wanted children          409   31.7 
-3 Male   Unsure                         334   25.9 
-4 Male   &lt;NA&gt;                            50    3.87
-5 Female Wanted children at one point   508   41.4 
-6 Female Never wanted children          361   29.4 
-7 Female Unsure                         283   23.1 
-8 Female &lt;NA&gt;                            75    6.11</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">gender</th>
+<th style="text-align: left;">child_views</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Wanted children at one point</td>
+<td style="text-align: right;">498</td>
+<td style="text-align: right;">19.78</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Never wanted children</td>
+<td style="text-align: right;">409</td>
+<td style="text-align: right;">16.24</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">Unsure</td>
+<td style="text-align: right;">334</td>
+<td style="text-align: right;">13.26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Male</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">1.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Female</td>
+<td style="text-align: left;">Wanted children at one point</td>
+<td style="text-align: right;">508</td>
+<td style="text-align: right;">20.17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Female</td>
+<td style="text-align: left;">Never wanted children</td>
+<td style="text-align: right;">361</td>
+<td style="text-align: right;">14.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Female</td>
+<td style="text-align: left;">Unsure</td>
+<td style="text-align: right;">283</td>
+<td style="text-align: right;">11.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Female</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">2.98</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1638,7 +1688,73 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" alt="" width="624" /></p>
 </div>
+<h2 id="results">Results</h2>
 <p>This analysis compares how men and women differ in their responses to the question about having children. The results show that women are slightly more likely than men to say that they wanted children at one point, while men are somewhat more likely to report that they never wanted children or were unsure. However, the differences between the groups are relatively small. Overall, this suggests that gender is associated with attitudes toward having children, but the relationship is not particularly strong. These findings provide limited support for my hypothesis that gender influences how people think about having children.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>clean_data</span> <span class='op'>&lt;-</span> <span class='va'>clean_data</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    no_kids_binary <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span></span>
+<span>      <span class='va'>child_views</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Never wanted children"</span>, <span class='st'>"Unsure"</span><span class='op'>)</span>,</span>
+<span>      <span class='fl'>1</span>,</span>
+<span>      <span class='fl'>0</span></span>
+<span>    <span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span>
+<span><span class='va'>model_binary</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>no_kids_binary</span> <span class='op'>~</span> <span class='va'>gender</span>, data <span class='op'>=</span> <span class='va'>clean_data</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>model_binary</span><span class='op'>)</span>, digits <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.576</td>
+<td style="text-align: right;">0.014</td>
+<td style="text-align: right;">41.611</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">genderFemale</td>
+<td style="text-align: right;">-0.051</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">-2.557</td>
+<td style="text-align: right;">0.011</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>&lt;theme&gt; List of 1
+ $ axis.text.x: &lt;ggplot2::element_text&gt;
+  ..@ family       : NULL
+  ..@ face         : NULL
+  ..@ italic       : chr NA
+  ..@ fontweight   : num NA
+  ..@ fontwidth    : num NA
+  ..@ colour       : NULL
+  ..@ size         : NULL
+  ..@ hjust        : num 1
+  ..@ vjust        : NULL
+  ..@ angle        : num 45
+  ..@ lineheight   : NULL
+  ..@ margin       : NULL
+  ..@ debug        : NULL
+  ..@ inherit.blank: logi FALSE
+ @ complete: logi FALSE
+ @ validate: logi TRUE</code></pre>
+</div>
+<p>To better analyze this relationship, I created a binary outcome variable that groups respondents who said they “never wanted children” or were “unsure” into one category, and those who said they “wanted children at one point” into another. The regression results show that gender is statistically significant in predicting attitudes about having children. The coefficient on gender is -0.051, which means that women are about 5.1 percentage points less likely than men to report that they never wanted children or were unsure. Therefore, men are slightly more likely than women to report that they never wanted children or were unsure. While this difference is statistically significant, the overall size of the effect is relatively small. Because the data are cross-sectional, this relationship should not be interpreted as causal, and other factors may help explain the difference. Interestingly, the results go against my initial null hypothesis, as men are actually more likely than women to report that they never wanted children or are unsure.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Overall, the results show that there are some small differences between men and women in how they think about having children, but the relationship is not very strong. Women are slightly more likely to say they once wanted children, while men are a bit more likely to say they never wanted children or are unsure. This provides only limited support for my hypothesis. There are a few limitations to this analysis. Because the data are cross-sectional, it is not possible to make causal claims. There may also be other factors, like socioeconomic status or relationship status, that affect both gender and attitudes toward having children. In addition, missing or refused responses could affect the results. If I had more time, I would try to include more variables in the analysis and explore how other factors might interact with gender.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -9,17 +9,20 @@ output:
 
 
 
-## Project thoughts
+## Introduction
 
 I am interested in exploring data related to childcare.
-
-## Tentative research question
 
 My research question is: How does gender relate to U.S. adults’ intentions or feelings about having children among those who have never been parents? I want to find out if women and men differ in how they describe their thoughts about having children. My hypothesis is that women are more likely than men to say that they “never wanted to have children” or “weren’t sure” compared to men, reflecting social and behavioral patterns in intention of raising kids. The key independent variable is F_GENDER, which indicates whether the respondent self-reported as a woman, a man, in some other way, or refused to answer. The dependent variable is the survey question (KIDSEVER_W147): “Which of the following best describes your thoughts on having children?” with response options: "There was a time when you wanted to have children," "You never wanted to have children," "You weren’t sure whether or not you wanted to have children," and "Refused." My hypothesis would be supported if the responses differ significantly by gender, specifically if women were more likely to respond with "You never wanted to have children" and "You weren’t sure whether or not you wanted to have children." The hypothesis would be disproved if there is no difference by gender, or if men are more likely than women to report they never wanted children or were unsure.
 
 ## Data
+
+This analysis uses data from the Pew Research Center American Trends Panel Wave 147, which surveys U.S. adults who have never had children. The data are cross-sectional, meaning they were collected at one point in time rather than over a longer period. The main independent variable is gender, measured using the variable `F_GENDER`, which I recoded to include only male and female respondents. The dependent variable comes from the question “Which of the following best describes your thoughts on having children?” (`KIDSEVER_W147`). The responses include whether someone once wanted children, never wanted children, or was unsure. I cleaned the data by removing missing and refused responses and recoding the variables into more readable categories. I would expect to see support for my hypothesis if women are more likely than men to say they never wanted children or that they are unsure. If there is little difference between men and women, or if men are more likely to give those responses, then the hypothesis would not be supported.
+
 ```{r}
 library(tidyverse)
+library(knitr)
+library(broom)
 
 panel_data <- read_csv("ATP W147.csv")
 head(panel_data)
@@ -57,9 +60,9 @@ ggplot(data = clean_data, mapping = aes(x = child_views, fill = gender)) +
 ```{r}
 summary_table <- clean_data |>
   group_by(gender, child_views) |>
-  summarize(n = n()) |>
+  summarize(n = n(), .groups = "drop") |>
   mutate(percent = n / sum(n) * 100) 
-summary_table
+kable(summary_table, digits = 2)
 ```
 
 ```{r}
@@ -72,4 +75,25 @@ ggplot(data = summary_table, mapping = aes(x = child_views, y = percent, fill = 
     fill = "Gender"
   )
 ```
+## Results
+
 This analysis compares how men and women differ in their responses to the question about having children. The results show that women are slightly more likely than men to say that they wanted children at one point, while men are somewhat more likely to report that they never wanted children or were unsure. However, the differences between the groups are relatively small. Overall, this suggests that gender is associated with attitudes toward having children, but the relationship is not particularly strong. These findings provide limited support for my hypothesis that gender influences how people think about having children.
+
+```{r}
+clean_data <- clean_data |>
+  mutate(
+    no_kids_binary = ifelse(
+      child_views %in% c("Never wanted children", "Unsure"),
+      1,
+      0
+    )
+  )
+model_binary <- lm(no_kids_binary ~ gender, data = clean_data)
+kable(tidy(model_binary), digits = 3)
+theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+To better analyze this relationship, I created a binary outcome variable that groups respondents who said they “never wanted children” or were “unsure” into one category, and those who said they “wanted children at one point” into another. The regression results show that gender is statistically significant in predicting attitudes about having children. The coefficient on gender is -0.051, which means that women are about 5.1 percentage points less likely than men to report that they never wanted children or were unsure. Therefore, men are slightly more likely than women to report that they never wanted children or were unsure. While this difference is statistically significant, the overall size of the effect is relatively small. Because the data are cross-sectional, this relationship should not be interpreted as causal, and other factors may help explain the difference. Interestingly, the results go against my initial null hypothesis, as men are actually more likely than women to report that they never wanted children or are unsure.
+
+## Conclusion
+Overall, the results show that there are some small differences between men and women in how they think about having children, but the relationship is not very strong. Women are slightly more likely to say they once wanted children, while men are a bit more likely to say they never wanted children or are unsure. This provides only limited support for my hypothesis. There are a few limitations to this analysis. Because the data are cross-sectional, it is not possible to make causal claims. There may also be other factors, like socioeconomic status or relationship status, that affect both gender and attitudes toward having children. In addition, missing or refused responses could affect the results. If I had more time, I would try to include more variables in the analysis and explore how other factors might interact with gender.

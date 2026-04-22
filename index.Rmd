@@ -54,7 +54,8 @@ ggplot(data = clean_data, mapping = aes(x = child_views, fill = gender)) +
     y = "Number of respondents",
     fill = "Gender",
     caption = "Source: Pew Research Center ATP Wave 147"
-  )
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r}

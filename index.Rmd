@@ -19,7 +19,7 @@ My research question is: How does gender relate to U.S. adults’ intentions or 
 
 This analysis uses data from the Pew Research Center American Trends Panel Wave 147, which surveys U.S. adults who have never had children. The data are cross-sectional, meaning they were collected at one point in time rather than over a longer period. The main independent variable is gender, measured using the variable `F_GENDER`, which I coded to include only male and female respondents. The dependent variable comes from the question “Which of the following best describes your thoughts on having children?” (`KIDSEVER_W147`). The responses include whether someone once wanted children, never wanted children, or was unsure. I cleaned the data by removing missing and refused responses and coding the variables into more readable categories. My hypothesis is supported if women are significantly more likely than men to report never wanting children or being unsure, so if there is a positive and statistically significant coefficient for male respondents in the regression model predicting the binary outcome of non-parental certainty. If the coefficient is not statistically significant or is close to zero, I would conclude that there is no meaningful gender difference.
 
-```{r, include=FALSE}
+```{r, echo=FALSE}
 library(tidyverse)
 library(knitr)
 library(broom)
@@ -45,7 +45,7 @@ clean_data <- panel_data |>
         "Never wanted children",
         "Unsure")))
 ```
-```{r}
+```{r, echo=FALSE}
 ggplot(data = clean_data, mapping = aes(x = child_views, fill = gender)) +
   geom_bar(position = "dodge") +
   labs(
@@ -59,7 +59,7 @@ ggplot(data = clean_data, mapping = aes(x = child_views, fill = gender)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-```{r}
+```{r, echo=FALSE}
 summary_table <- clean_data |>
   group_by(gender, child_views) |>
   summarize(n = n(), .groups = "drop") |>
@@ -67,7 +67,7 @@ summary_table <- clean_data |>
 kable(summary_table, digits = 2)
 ```
 
-```{r}
+```{r, echo=FALSE}
 ggplot(data = summary_table, mapping = aes(x = child_views, y = percent, fill = gender)) +
   geom_bar(stat = "identity", position = "dodge") +
   labs(
@@ -82,7 +82,7 @@ ggplot(data = summary_table, mapping = aes(x = child_views, y = percent, fill = 
 
 This analysis compares how men and women differ in their responses to the question about having children. The results show that women are slightly more likely than men to say that they wanted children at one point, while men are somewhat more likely to report that they never wanted children or were unsure. However, the differences between the groups are relatively small. Overall, this suggests that gender is associated with attitudes toward having children, but the relationship is not particularly strong. These findings provide limited support for my hypothesis that gender influences how people think about having children. 
 
-```{r}
+```{r, echo=FALSE}
 clean_data <- clean_data |>
   mutate(
     no_kids_binary = ifelse(
@@ -97,7 +97,7 @@ kable(tidy(model_binary), digits = 3)
 
 To better analyze this relationship, I created a binary outcome variable that groups respondents who said they “never wanted children” or were “unsure” into one category, and those who said they “wanted children at one point” into another. The regression results show that the intercept is 0.576, meaning that about 57.6% of men in the sample report that they never wanted children or were unsure. The coefficient for genderFemale is -0.051, indicating that women are approximately 5.1 percentage points less likely than men to report never wanting children or being unsure. This difference is statistically significant (p = 0.011), meaning we have evidence to reject the null hypothesis of no difference between men and women at the 5% significance level. The standard error of 0.020 suggests the estimate is relatively precise. The standard errors are relatively small, and the p-value indicates that the gender coefficient is statistically significant at conventional levels (p < 0.05). However, because this is cross-sectional observational data, this relationship should not be interpreted causally. This could be due to confounding variables such as age, education, relationship status, and religion, which may influence both gender differences and attitudes toward having children.
 
-```{r}
+```{r, echo=FALSE}
 model_age <- lm(no_kids_binary ~ gender + age_group, data = clean_data)
 kable(tidy(model_age), digits = 3)
 ```
